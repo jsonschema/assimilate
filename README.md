@@ -4,6 +4,7 @@
 
 Installation and usage
 ===================================
+*Note: nothing works yet except basic TS build and packaging, still doesn't run tests properly*
 
 *ES6 via npm*
 ```cmd
@@ -20,7 +21,7 @@ Assimilate.Validator.use(schema).lib(['draft4','$data']).compile()
 To import only what you need by patching (this is useful for size-sensitive bundling):
 ```javascript
 import { Validator } from '@json-schema/assimilate/Validator';
-import 'assimilate/use/AJV';
+import 'assimilate/use/ajv';
 import 'assimilate/add/operator/is';
 import 'assimilate/add/operator/not';
 import 'assimilate/add/operator/find';
