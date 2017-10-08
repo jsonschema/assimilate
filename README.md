@@ -1,7 +1,7 @@
 # Assimilate JSON Schema Validator Interface
 **Note: nothing works yet except basic TS build and packaging, still doesn't run tests properly, come back in a month or more**
 
-Installation and usage
+Installation and usage PLAN, NOT WORKING YET!!
 ===================================
 
 *ES6 via npm*
