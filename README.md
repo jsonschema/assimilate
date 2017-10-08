@@ -73,8 +73,4 @@ A header will is appended to each file to indicate version information
 ```
 
 ## Contributing / Plans
-The main contributions we need to the core at the moment are related to both the migration
-of `Angular Schema Form` features to the core (like templates/builders) and the addition
-of an API for use by ASF (Angular) and RSF (React) libraries.
-
-Please contact @Anthropic via our [Gitter](https://gitter.im/json-schema-form/angular-schema-form) if you wish to get involved.
+Please contact @Anthropic via [Gitter](https://gitter.im/Anthropic) if you wish to get involved.
