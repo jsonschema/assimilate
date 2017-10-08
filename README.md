@@ -1,10 +1,11 @@
 # Assimilate JSON Schema Validator Interface
+**Note: nothing works yet except basic TS build and packaging, still doesn't run tests properly, come back in a month or more**
+
 [![Gitter](https://img.shields.io/badge/GITTER-JOIN%20CHAT%20%E2%86%92-ff69b4.svg?style=flat-square)](https://gitter.im/json-schema-form/assimilate?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/json-schema-form/assimilate.svg?branch=development)](https://travis-ci.org/json-schema-form/assimilate)
 
 Installation and usage
 ===================================
-*Note: nothing works yet except basic TS build and packaging, still doesn't run tests properly*
 
 *ES6 via npm*
 ```cmd
