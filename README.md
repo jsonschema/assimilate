@@ -33,13 +33,15 @@ import 'assimilate/add/output/verbose';
 import 'assimilate/add/output/use-json-pointer';
 import 'assimilate/util/JSONRef';
 
-Validator.Use(schema).of(1,2,3).map(x => x + '!!!'); // etc 
+Validator.Use(schema); // etc 
+let test = Validator.Compile(path);
+let errors = test(data);
 ```
 To compile tests for re-use:
 ```javascript
 import Assimilate from '@json-schema/assimilate/Assimilate';
  
-let test = Assimilate.Validator.use(schema).lib(['draft4','$data']).compile(path);
+let test = Assimilate.Validator.use(schema).compile(path);
 let errors = test(data);
 ```
 
