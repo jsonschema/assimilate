@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "declarationDirectory": "./dist/typings",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

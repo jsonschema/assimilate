@@ -17,7 +17,7 @@ function addLicenseTextToFile(licenseText, destination) {
     throw new Error('destination file path is required as 2nd argument');
   }
 
-  fs.writeFileSync(destination, `/**
+  fs.writeFileSync(destination, `/*!
   Assimilate JSON Schema Validation Instrument
   @name assimilate
   @version ${package.version}

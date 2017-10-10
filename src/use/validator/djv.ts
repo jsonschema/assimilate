@@ -1,4 +1,8 @@
 import { Validation } from '../../Validator';
-declare var djv: any;
-
-Validation.add('djv', djv);
+try {
+  const djv = require('djv');
+  Validation.addLibrary('djv', djv);
+}
+catch(e) {}
+// declare var djv: any;
+// Validation.add('djv', djv);

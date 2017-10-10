@@ -94,7 +94,9 @@ export class Validator {
   }
 
   add (namespace: string, jsonSchema: JSONSchema4) {
+  }
 
+  validate (namespace: string, jsonSchema: JSONSchema4) {
   }
 }
 
