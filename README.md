@@ -48,16 +48,16 @@ let errors = test(data);
 ```
 
 ## Goals
-- [ ] Provide a consistent interface to use for running JSON Schema validation so that if
+- Provide a consistent interface to use for running JSON Schema validation so that if
   a library is discontinued like tv4 it is easier to switch to a current and actively 
   maintained validator.
-- [ ] Provide utilities common to JSON Schema usage scenarios with standardised interfaces.
-- [ ] Make it as easy as possible to keep code size as small as possible.
-- [ ] Make testing and comparing validators and utils as easy as possible to keep the user 
+- Provide utilities common to JSON Schema usage scenarios with standardised interfaces.
+- Make it as easy as possible to keep code size as small as possible.
+- Make testing and comparing validators and utils as easy as possible to keep the user 
   base informed and boost competition.
-- [ ] Add build and test scripts.
-- [ ] Add performance tests.
-- [ ] Add documentation.
+- Add build and test scripts.
+- Add performance tests.
+- Add documentation.
 
 
 ## Keeping Track
@@ -80,3 +80,6 @@ Please contact @Anthropic via [Gitter](https://gitter.im/Anthropic) if you wish 
 ## Acknowledgements
 I (@Anthropic) would like to thank @korzio for [jvu](https://github.com/korzio/jvu) which inspired this 
 entire project and leans heavily on its code for the initial drafts.
+
+The whole template for the library including the build scripts and even parts of this README.md file 
+are taken from [RxJS](https://github.com/ReactiveX/RxJS) as a starting point.
