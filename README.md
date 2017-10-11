@@ -3,23 +3,25 @@
 
 Installation and usage PLAN, NOT WORKING YET!!
 ===================================
+Below are the desired outcomes and ideas in-progress for what this library will be.
 
 *ES6 via npm*
 ```cmd
-npm install @json-schema/assimilate --save-dev
+npm install @jsonschema/assimilate --save-dev
 ```
 
 To import the entire core set of functionality:
 ```javascript
-import Assimilate from '@json-schema/assimilate/Assimilate';
+import Assimilate from '@jsonschema/assimilate/Assimilate';
  
-Assimilate.Validator.use(schema).lib(['draft4','$data']).compile()
+Assimilate.Validator.addSchema(schema).useMetaSchema(['draft4','draft6','$data']).validate(data);
 ```
 
 To import only what you need by patching (this is useful for size-sensitive bundling):
 ```javascript
-import { Validator } from '@json-schema/assimilate/Validator';
-import 'assimilate/use/ajv';
+import { Validation } from '@jsonschema/assimilate/Validator';
+import 'assimilate/use/validator/ajv';
+import 'assimilate/use/util/JSONRef';
 import 'assimilate/add/operator/is';
 import 'assimilate/add/operator/not';
 import 'assimilate/add/operator/find';
@@ -31,17 +33,16 @@ import 'assimilate/add/operator/getSchema';
 import 'assimilate/add/operator/removeSchema';
 import 'assimilate/add/output/verbose';
 import 'assimilate/add/output/use-json-pointer';
-import 'assimilate/util/JSONRef';
 
-Validator.Use(schema); // etc 
-let test = Validator.Compile(path);
+Validation.addSchema(schema); // etc 
+let test = Validation.compile(path);
 let errors = test(data);
 ```
 To compile tests for re-use:
 ```javascript
-import Assimilate from '@json-schema/assimilate/Assimilate';
+import Assimilate from '@jsonschema/assimilate/Assimilate';
  
-let test = Assimilate.Validator.use(schema).compile(path);
+let test = Assimilate.Validator.addSchema(schema).useMetaSchema(['draft4','draft6','$data']).compile();
 let errors = test(data);
 ```
 
@@ -74,3 +75,7 @@ A header will is appended to each file to indicate version information
 
 ## Contributing / Plans
 Please contact @Anthropic via [Gitter](https://gitter.im/Anthropic) if you wish to get involved.
+
+## Acknowledgements
+I (@Anthropic) would like to thank @korzio for [jvu](https://github.com/korzio/jvu) which inspired this 
+entire project and leans heavily on its code for the initial drafts.
