@@ -1,4 +1,4 @@
-//ambient declarations to allow modules do not have type definition
+// ambient declarations to allow modules do not have type definition
 declare module 'mocha/lib/interfaces/common' {
 }
 

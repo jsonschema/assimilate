@@ -1,4 +1,4 @@
-import { ValidationLibraryInstance, AssimilateAPI } from './declarations'
+import { ValidatorLibraryInstance, AssimilateAPI } from './declarations';
 /**
  * @function
  * @name noop
@@ -38,7 +38,7 @@ function partial(fn: Function, ...args: any[]) {
  * @param {object} instance
  * @returns {boolean} isValid
  */
-const is = partial((env: ValidationLibraryInstance, path: string, instance: object) => !env.validate(path, instance));
+const is = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !env.validate(path, instance));
 
 /**
  * @function
@@ -53,7 +53,7 @@ const is = partial((env: ValidationLibraryInstance, path: string, instance: obje
  * @param {object} instance
  * @returns {boolean} isNotValid
  */
-const not = partial((env: ValidationLibraryInstance, path: string, instance: object) => !!env.validate(path, instance));
+const not = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !!env.validate(path, instance));
 
 /**
  * @function
@@ -67,7 +67,7 @@ const not = partial((env: ValidationLibraryInstance, path: string, instance: obj
  * @param {object} instance
  * @returns {?}
  */
-const find = partial((env: ValidationLibraryInstance, references: Array<any> | object, instance: object) => {
+const find = partial((env: ValidatorLibraryInstance, references: Array<any> | object, instance: object) => {
   const isArray = Array.isArray(references);
   const foundKey = (<any>Object.keys(references))
     .find((path: string) =>
@@ -90,7 +90,7 @@ const find = partial((env: ValidationLibraryInstance, references: Array<any> | o
  * @param {object} instance
  * @returns {array} indexes
  */
-const filter = partial((env: ValidationLibraryInstance, references: Array<any> | object, instance: object) => {
+const filter = partial((env: ValidatorLibraryInstance, references: Array<any> | object, instance: object) => {
   const isArray = Array.isArray(references);
   return Object.keys(references)
     .filter(path =>
@@ -112,7 +112,7 @@ const filter = partial((env: ValidationLibraryInstance, references: Array<any> |
  * @param {object} instance
  * @returns {?}
  */
-const match = partial((env: ValidationLibraryInstance, references: Array<any> | object, instance: object) => {
+const match = partial((env: ValidatorLibraryInstance, references: Array<any> | object, instance: object) => {
   const fn = find(env, references, instance);
   if (typeof fn === 'function') {
     return fn(instance);

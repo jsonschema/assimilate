@@ -1,10 +1,9 @@
 import { expect, should } from 'chai';
 import * as djv from 'djv';
-import { Validation } from '../dist/package/Validator';
-import { Validator } from '../dist/package/Assimilate';
+import * as Assimilate from '../dist/package/Assimilate';
 import '../dist/package/use/validator/djv';
 import {
-  ValidationLibraryInstance,
+  ValidatorLibraryInstance,
   AssimilateAPI,
   DefaultOptions,
   RequiredOptions,
@@ -12,18 +11,17 @@ import {
 
 should();
 
-
-describe('Assimilate', () => {
+describe('Assimilate.Validator', () => {
   it('exists', () => {
-    Validation.should.be.a('object');
+    Assimilate.Validator.should.be.a('object');
   });
   it('added djv', () => {
-    Validation.using.should.eq('djv');
+    Assimilate.Validator.using.should.eq('djv');
   });
 
   describe('addLibrary', () => {
     it('should addLibrary', () => {
-      class testTrue implements ValidationLibraryInstance {
+      class TestTrue implements ValidatorLibraryInstance {
         constructor() {}
         addSchema() {}
         addMetaSchema() {}
@@ -31,12 +29,12 @@ describe('Assimilate', () => {
           return true;
         }
       }
-      // console.log('Validation.libraries', Validation.libraries['djv'].lib.toString());
-      Validation.libraries.should.be.a('object');
-      Validation.libraries.should.not.haveOwnProperty('test');
-      Validation.addLibrary('test', testTrue);
-      Validation.libraries.should.haveOwnProperty('test');
-      Validation.using.should.eq('test');
+      // console.log('Assimilate.Validator.libraries', Assimilate.Validator.libraries['djv'].lib.toString());
+      Assimilate.Validator.libraries.should.be.a('object');
+      Assimilate.Validator.libraries.should.not.haveOwnProperty('test');
+      Assimilate.Validator.addLibrary('test', TestTrue);
+      Assimilate.Validator.libraries.should.haveOwnProperty('test');
+      Assimilate.Validator.using.should.eq('test');
     });
   });
 
@@ -44,7 +42,7 @@ describe('Assimilate', () => {
     it('switches library', () => {
     });
   });
-  
+
   describe('addSchema', () => {
     it('adds a schema to validate against', () => {
     });

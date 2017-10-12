@@ -18,17 +18,17 @@ module.exports = {
   },
 
   entry: {
-    'browser.testscheduler': './spec-js/helpers/testScheduler-ui.js',
+//    'browser.testscheduler': './spec-js/helpers/testScheduler-ui.js',
     'browser.spec': files
   },
 
   output: {
-    path: 'tmp/browser',
+    path: path.resolve(__dirname, 'tmp/browser'),
     filename: '[name].js',
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('browser.common.js'),
+    new webpack.optimize.CommonsChunkPlugin('browser.common'),
     new webpack.IgnorePlugin(/^mocha$/)
   ]
 };

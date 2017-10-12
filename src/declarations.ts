@@ -25,9 +25,9 @@ export interface DefaultOptions  {
 export interface RequiredOptions extends DefaultOptions  {}
 
 /**
- * 
+ * I am the required method set for a library or library wrapper
  */
-export declare class ValidationLibraryInstance {
+export declare class ValidatorLibraryInstance {
   constructor();
   addSchema?(schema: JSONSchema4): void;
   addMetaSchema?(): void;

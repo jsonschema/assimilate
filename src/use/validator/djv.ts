@@ -1,8 +1,5 @@
-import { Validation } from '../../Validator';
+import { Assimilate, Validator } from '../../Validator';
 try {
   const djv = require('djv');
-  Validation.addLibrary('djv', djv);
-}
-catch(e) {}
-// declare var djv: any;
-// Validation.add('djv', djv);
+  Validator.addLibrary('djv', Assimilate(djv));
+} catch (e) { }

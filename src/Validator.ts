@@ -1,11 +1,11 @@
 import { api } from './API';
 import { JSONSchema4 } from './json-schema';
 import {
-  ValidationLibraryInstance,
+  ValidatorLibraryInstance,
   AssimilateAPI,
   DefaultOptions,
   RequiredOptions,
-} from './declarations'
+} from './declarations';
 
 /**
  * @module @json-schema/assimilate
@@ -23,8 +23,8 @@ import {
  * @param {function?} adapter
  * @returns {function} jvuApi
  */
-const Assimilate = (validator: Function, adapter: Function) => {
-  let env: ValidationLibraryInstance;
+export const Assimilate = (validator: Function, adapter?: Function): ValidatorLibraryInstance => {
+  let env: ValidatorLibraryInstance;
   switch (typeof adapter) {
     case 'function':
       env = adapter(validator);
@@ -35,14 +35,15 @@ const Assimilate = (validator: Function, adapter: Function) => {
   }
 
   const {
-    addSchema: add,
+    addSchema,
+    validate,
   } = env;
 
   const apis: AssimilateAPI = Object.keys(api)
     .reduce(
-      (memo, key) => (<any>Object).assign({
+      (accumulator, key: string, currentIndex: number, source: string[]) => (<any>Object).assign({
         [key]: api[key](env),
-      }, memo)
+      }, accumulator)
     , {});
 
   // Entry point for generated environment
@@ -51,7 +52,7 @@ const Assimilate = (validator: Function, adapter: Function) => {
     env,
     {
       env,
-      add,
+      addSchema,
       validate: apis.is,
     },
     apis,
@@ -64,17 +65,17 @@ const Assimilate = (validator: Function, adapter: Function) => {
  * I am a Validator class instance and I am usable with the
  * 'new' keyword to obtain multiple instances
  */
-export class Validator {
-  libraries: Object;
-  operators: Object;
+export class ValidatorInstance {
+  public libraries: Object;
+  public operators: Object;
 
-  using: string;
+  public using: string;
 
   constructor () {
     this.libraries = {};
   }
 
-  addLibrary (name: string, library: ValidationLibraryInstance, defaultOptions?: object, requiredOptions?: object) {
+  addLibrary (name: string, library: ValidatorLibraryInstance, defaultOptions?: object, requiredOptions?: object) {
     this.libraries[name] = {
       name,
       lib: library,
@@ -103,7 +104,7 @@ export class Validator {
 /**
  * I am a singleton export, all importers of me will be using the same instance
  */
-export let Validation = new Validator();
+export let Validator = new ValidatorInstance();
 
 /*
 Assimilate JSON Schema Validator Interface
