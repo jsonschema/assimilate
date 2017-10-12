@@ -1,13 +1,14 @@
 import { Assimilate, Validator } from '../../Validator';
+import { JSONSchema4 } from '../../json-schema';
 try {
-  const ajv = require('ajv');
-  Validator.addLibrary('ajv', Assimilate(ajv, (source) => {
+  const ajv: any = require('ajv');
+  Validator.addLibrary('ajv', Assimilate(ajv, (source: any) => {
     const env = source();
     const { addSchema, validate } = env;
 
     return (<any>Object).assign(env, {
-      addSchema: (schema, key) => addSchema(key, schema),
-      validate: (path, obj) => (validate(path, obj) ? '' : 'error'),
+      addSchema: (schema: JSONSchema4, key?: string) => addSchema(key, schema),
+      validate: (path: string, instance: object) => (validate(path, instance) ? '' : 'error'),
     });
   }));
 } catch (e) { }
