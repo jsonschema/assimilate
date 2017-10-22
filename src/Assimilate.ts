@@ -1,4 +1,4 @@
-export { Validator } from './Validator';
+export { Assimilate, Validator, Validate } from './Validator';
 
 import './use/validator/ajv';
 import './use/validator/djv';

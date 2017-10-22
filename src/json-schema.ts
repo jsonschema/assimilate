@@ -168,7 +168,7 @@ enum?: JSONSchema4Type[]
 /**
 * A single type, or a union of simple types
 */
-type?: JSONSchema4TypeName | JSONSchema4TypeName[]
+type?: JSONSchema4TypeName | JSONSchema4TypeName[] | string | string[]
 
 allOf?: JSONSchema4[]
 anyOf?: JSONSchema4[]

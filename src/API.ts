@@ -27,6 +27,21 @@ function partial(fn: Function, ...args: any[]) {
 
 /**
  * @function
+ * @name test
+ * @description
+ * Validate object along with schema
+ *
+ * @requires env::validate
+ *
+ * @param {object} env
+ * @param {object|string} path
+ * @param {object} instance
+ * @returns {boolean} isValid
+ */
+const test = partial((env: ValidatorLibraryInstance, path: string, instance: object) => env.validate(path, instance));
+
+/**
+ * @function
  * @name is
  * @description
  * Validate object along with schema
@@ -38,7 +53,7 @@ function partial(fn: Function, ...args: any[]) {
  * @param {object} instance
  * @returns {boolean} isValid
  */
-const is = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !env.validate(path, instance));
+const is = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !!env.validate(path, instance));
 
 /**
  * @function
@@ -53,7 +68,7 @@ const is = partial((env: ValidatorLibraryInstance, path: string, instance: objec
  * @param {object} instance
  * @returns {boolean} isNotValid
  */
-const not = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !!env.validate(path, instance));
+const not = partial((env: ValidatorLibraryInstance, path: string, instance: object) => !env.validate(path, instance));
 
 /**
  * @function
@@ -122,6 +137,7 @@ const match = partial((env: ValidatorLibraryInstance, references: Array<any> | o
 });
 
 const api: AssimilateAPI = {
+  test,
   is,
   not,
   find,

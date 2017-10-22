@@ -14,7 +14,7 @@ rollup.rollup({
       jsnext: true,
     }),
     rollupInject({
-      exclude: [ 'node_modules/**', 'tv4', 'tv4', 'objectpath' ]
+      exclude: [ 'node_modules/**' ]
     }),
   ],
 }).then(function (bundle) {

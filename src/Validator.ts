@@ -1,5 +1,5 @@
 import { api } from './API';
-import { JSONSchema4 } from './json-schema';
+import { JSONSchema4, JSONSchema4TypeName, JSONSchema4Type } from './json-schema';
 import {
   ValidatorLibraryInstance,
   AssimilateAPI,
@@ -25,6 +25,7 @@ import {
  */
 export const Assimilate = (validator: Function, adapter?: Function): ValidatorLibraryInstance => {
   let env: ValidatorLibraryInstance;
+
   switch (typeof adapter) {
     case 'function':
       env = adapter(validator);
@@ -52,7 +53,7 @@ export const Assimilate = (validator: Function, adapter?: Function): ValidatorLi
     env,
     {
       env,
-      addSchema,
+      addSchema: addSchema,
       validate: apis.is,
     },
     apis,
@@ -68,6 +69,7 @@ export const Assimilate = (validator: Function, adapter?: Function): ValidatorLi
 export class ValidatorInstance {
   public libraries: Object;
   public operators: Object;
+  public errors: Array<object>;
 
   public using: string;
 
@@ -94,10 +96,26 @@ export class ValidatorInstance {
     return this;
   }
 
-  add (namespace: string, jsonSchema: JSONSchema4) {
+  /**
+   * 
+   * @param namespace  I am the reference to the schema to be used in jsonref or jsonpath
+   * @param jsonSchema The schema to validate against
+   */
+  addSchema (namespace: string, jsonSchema: JSONSchema4) {
+    if(!this.libraries || !this.libraries[this.using]) throw ('A validation library must be provided prior to adding a schema');
+    this.libraries[this.using].lib.addSchema(namespace, jsonSchema);
+    return this;
   }
 
-  validate (namespace: string, jsonSchema: JSONSchema4) {
+  validate (namespace: string, instance: any) {
+    if(!this.libraries || !this.libraries[this.using]) throw ('A validation library must be provided prior to adding a schema');
+    let valid = this.libraries[this.using].lib.validate(namespace, instance);
+    this.errors = this.libraries[this.using].lib.getErrors();
+    return valid;
+  }
+
+  getErrors (): Array<object> {
+    return this.errors;
   }
 }
 
@@ -105,6 +123,11 @@ export class ValidatorInstance {
  * I am a singleton export, all importers of me will be using the same instance
  */
 export let Validator = new ValidatorInstance();
+
+/**
+ * I am a singleton export, all importers of me will be using the same instance
+ */
+export const Validate = new ValidatorInstance();
 
 /*
 Assimilate JSON Schema Validator Interface

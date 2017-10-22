@@ -1,8 +1,9 @@
-import { JSONSchema4 } from './json-schema';
+import { JSONSchema4, JSONSchema4TypeName, JSONSchema4Type } from './json-schema';
 /*!
  * I am the interfaces for the Assimilate library
  */
 export interface AssimilateAPI {
+  test?: Function;
   is?: Function;
   not?: Function;
   find?: Function;
@@ -31,6 +32,9 @@ export declare class ValidatorLibraryInstance {
   constructor();
   addSchema?(schema: JSONSchema4): void;
   addMetaSchema?(): void;
-  validate?(path: string, instance: object): boolean;
+  validate?(this: ValidatorLibraryInstance, path: string, instance: any): boolean;
+  getErrors?(): Array<object>;
+  errors?: string | object;
+  //validate?(path: string, instance: any): boolean;
   [x: string]: any;
 }
