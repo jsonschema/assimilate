@@ -98,8 +98,8 @@ describe('Assimilate.Validator', () => {
               "items": {
                 "type":"object",
                 "oneOf": [
-                  { "properties": { "alpha": { "type": "string" }}},
-                  { "properties": { "beta": { "type": "string" }}}
+                  { "properties": { "alpha": { "type": "string" }}, "additionalProperties": false },
+                  { "properties": { "beta": { "type": "string" }}, "additionalProperties": false }
                 ]
               }
             }
