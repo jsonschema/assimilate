@@ -7,13 +7,13 @@ try {
     const env = source({
       errorHandler(this: any, type: string) {
         let path = this.data.toString().replace(/^data/, '');
-        let dataPath: string = path.replace(/\[i([0-9]*)\]/ig, '[$1]').replace(/\[\'([^\']+)\'\]/ig, '.$1');
+        let dataPath: string = path.replace(/\[\'([^\']+)\'\]/ig, '.$1').replace(/\[(i[0-9]*)\]/ig, "[\'+$1+\']");
         let schemaPath: string = '#'+path.replace(/\[i([0-9]*)\]/ig, '/items').replace(/\[\'([^\']+)\'\]/ig, '/properties/$1');
         let schema = this.schema;
 
-        if([ 'type', 'enum', 'minimum', 'maximum' ].indexOf(type)) {
+        // if([ 'type', 'enum', 'minimum', 'maximum' ].indexOf(type)) {
           schemaPath = schemaPath + '/' + type;
-        };
+        // };
 
         // TODO decide if it is worth adding the schema -> schema: this.schema,
         return `{
@@ -27,6 +27,7 @@ try {
         }`;
       }
     });
+
     const { validate: test } = env;
 
     const library: ValidatorInstance = (<any>Object).assign(env, {

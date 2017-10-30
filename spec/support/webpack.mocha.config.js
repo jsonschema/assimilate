@@ -18,7 +18,7 @@ module.exports = {
   },
 
   entry: {
-//    'browser.testscheduler': './spec-js/helpers/testScheduler-ui.js',
+    'browser.testscheduler': './spec-js/helpers/testScheduler-ui.js',
     'browser.spec': files
   },
 
