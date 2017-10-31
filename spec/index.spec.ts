@@ -1,3 +1,4 @@
+/* tslint:disable:quotemark */
 import { expect, should } from 'chai';
 import * as Assimilate from '../dist/package/Assimilate';
 import {
@@ -6,8 +7,8 @@ import {
   DefaultOptions,
   RequiredOptions,
 } from '../dist/package/declarations';
-console.log(Assimilate.Validator.libraries);
-console.log(Object.keys(Assimilate.Validator.libraries));
+
+// Store library list before adding test entries
 const libraries: string[] = Object.keys(Assimilate.Validator.libraries);
 
 should();
@@ -76,7 +77,7 @@ describe('Assimilate.Validator', () => {
             "test": {
               "type": "array",
               "items": {
-                "type":"object",
+                "type": "object",
                 "properties": {
                   "alpha": { "type": "string" },
                   "beta": { "type": "string" }
@@ -96,7 +97,7 @@ describe('Assimilate.Validator', () => {
             "test": {
               "type": "array",
               "items": {
-                "type":"object",
+                "type": "object",
                 "oneOf": [
                   { "properties": { "alpha": { "type": "string" }}, "additionalProperties": false },
                   { "properties": { "beta": { "type": "string" }}, "additionalProperties": false }
@@ -109,7 +110,7 @@ describe('Assimilate.Validator', () => {
           ]
         };
 
-        for(let i in libraries) {
+        for (let i = 0; i < libraries.length; i++) {
           let lib = libraries[i];
           describe(lib, () => {
             it('validates against ' + lib, () => {
@@ -117,7 +118,7 @@ describe('Assimilate.Validator', () => {
               Assimilate.Validator.addSchema('arrayTest' + lib, arrayTest);
               Assimilate.Validator.validate('arrayTest' + lib, { "test": [{ "alpha": "4" }, { "alpha": 4 }]});
               console.log('arrayTest ' + lib, Assimilate.Validator.getErrors());
-  
+
               Assimilate.Validator.addSchema('enumTest' + lib, enumTest);
               Assimilate.Validator.validate('enumTest' + lib, { "test": 'A' });
               Assimilate.Validator.getErrors().should.be.an('Array');
@@ -125,7 +126,7 @@ describe('Assimilate.Validator', () => {
               Assimilate.Validator.validate('enumTest' + lib, { "test": 'B' });
               Assimilate.Validator.getErrors().should.be.an('Array');
               console.log('enumTest ' + lib + ' fail', Assimilate.Validator.getErrors());
-  
+
               Assimilate.Validator.addSchema('ofTest', ofTest);
               Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }]});
               Assimilate.Validator.getErrors().should.be.an('Array');
@@ -136,130 +137,18 @@ describe('Assimilate.Validator', () => {
             });
           });
         }
-
-        // describe('djv', () => {
-        //   it('validates against djv', () => {
-        //     Assimilate.Validator.use('djv');
-        //     Assimilate.Validator.addSchema('arrayTestdjv', arrayTest);
-        //     Assimilate.Validator.validate('arrayTestdjv', { "test": [{ "alpha": "4" }, { "alpha": 4 }]});
-        //     console.log("arrayTest djv", Assimilate.Validator.getErrors());
-
-        //     Assimilate.Validator.addSchema('enumTestdjv', enumTest);
-        //     Assimilate.Validator.validate('enumTestdjv', { "test": 'A' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("enumTest djv pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('enumTestdjv', { "test": 'B' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("enumTest djv fail", Assimilate.Validator.getErrors());
-
-        //     Assimilate.Validator.addSchema('ofTest', ofTest);
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest djv pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }, { "gamma": "4" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest djv fail", Assimilate.Validator.getErrors());
-        //   });
-        // });
-
-        // describe('ajv', () => {
-        //   it('validates against ajv', () => {
-        //     Assimilate.Validator.use('ajv');
-        //     Assimilate.Validator.addSchema('arrayTestajv', arrayTest);
-        //     Assimilate.Validator.validate('arrayTestajv', { "test": [{ "alpha": "4" }, { "alpha": 4 }]});
-        //     console.log("arrayTest ajv", Assimilate.Validator.getErrors());
-
-        //     Assimilate.Validator.addSchema('enumTestajv', enumTest);
-        //     Assimilate.Validator.validate('enumTestajv', { "test": 'A' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("enumTest ajv pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('enumTestajv', { "test": 'B' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     let enumTestAJVFail = Assimilate.Validator.getErrors();
-        //     enumTestAJVFail.length.should.eq(1);
-        //     console.log("enumTest ajv fail", enumTestAJVFail);
-            
-        //     Assimilate.Validator.addSchema('ofTest', ofTest);
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest ajv pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }, { "gamma": "4" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest ajv fail", Assimilate.Validator.getErrors());
-        //   });
-        // });
-
-        // describe('tv4', () => {
-        //   it('validates against tv4', () => {
-        //     Assimilate.Validator.use('tv4');
-        //     Assimilate.Validator.addSchema('arrayTesttv4', arrayTest);
-        //     Assimilate.Validator.validate('arrayTesttv4', { "test": [{ "alpha": "4" }, { "alpha": 4 }]});
-        //     console.log("arrayTest tv4", Assimilate.Validator.getErrors());
-
-        //     Assimilate.Validator.addSchema('enumTesttv4', enumTest);
-        //     Assimilate.Validator.validate('enumTesttv4', { "test": 'A' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("enumTest tv4 pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('enumTesttv4', { "test": 'B' });
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     let enumTestTV4Fail = Assimilate.Validator.getErrors();
-        //     enumTestTV4Fail.length.should.eq(1);
-        //     console.log("enumTest tv4 fail", enumTestTV4Fail);
-            
-        //     Assimilate.Validator.addSchema('ofTest', ofTest);
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest tv4 pass", Assimilate.Validator.getErrors());
-        //     Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }, { "gamma": "4" }]});
-        //     Assimilate.Validator.getErrors().should.be.an('Array');
-        //     console.log("ofTest tv4 fail", Assimilate.Validator.getErrors());
-        //   });
-        // });
       });
     });
 
-    describe('validate', () => {
-      it('validates against provided schema', () => {
-        let jsonSchemaA = {
-          "properties": {
-            "common": {
-              "properties": {
-                "test": {
-                  "enum": ["A"]
-                }
-              },
-              "required": [
-                "test"
-              ]
-            }
-          }
-        };
-        let jsonSchemaB = {
-          "properties": {
-            "common": {
-              "properties": {
-                "test": {
-                  "enum": ["B"]
-                }
-              },
-              "required": [
-                "test"
-              ]
-            }
-          }
-        };
-
-        // Assimilate.Validator.use('djv');
-        // Assimilate.Validator.addSchema('testA', jsonSchemaA);
-        // Assimilate.Validator.validate('testA#/common', { type: 'custom' });
-        // console.log(Assimilate.Validator.errors);
-        // Assimilate.Validator.use('ajv');
-        // Assimilate.Validator.addSchema('testB', jsonSchemaB);
-        // Assimilate.Validator.validate('testB#/common', { type: 'custom' });
-        // console.log(Assimilate.Validator.errors);
-        // Assimilate.Validator.errors.should.eq(false);
-      });
-    });
+    // Assimilate.Validator.use('djv');
+    // Assimilate.Validator.addSchema('testA', jsonSchemaA);
+    // Assimilate.Validator.validate('testA#/common', { type: 'custom' });
+    // console.log(Assimilate.Validator.errors);
+    // Assimilate.Validator.use('ajv');
+    // Assimilate.Validator.addSchema('testB', jsonSchemaB);
+    // Assimilate.Validator.validate('testB#/common', { type: 'custom' });
+    // console.log(Assimilate.Validator.errors);
+    // Assimilate.Validator.errors.should.eq(false);
 
     describe('addMetaSchema', () => {
       it('adds the meta schema to define supported schema properties', () => {

@@ -18,7 +18,7 @@ try {
         return valid;
       },
       getErrors: () => {
-        let result = errors.filter((n) => { return n != undefined; });
+        let result = errors.filter((n) => { return n !== undefined; });
         return [].concat(result);
       },
     });

@@ -15,13 +15,14 @@ To import the entire core set of functionality:
 ```javascript
 import Assimilate from '@jsonschema/assimilate/Assimilate';
  
-Assimilate.Validator.addSchema(schema).useMetaSchema(['draft4','draft6','$data']).validate(data);
+Assimilate.Validator.addSchema('arrayTest', {...});
+Assimilate.Validator.validate('arrayTest', { "test": [{ "alpha": "4" }]});
 ```
 
 To import only what you need by patching (this is useful for size-sensitive bundling):
 ```javascript
-import { Validation } from '@jsonschema/assimilate/Validator';
-import '@jsonschema/assimilate/use/validator/ajv';
+import { Validator } from '@jsonschema/assimilate/Validator';
+import '@jsonschema/assimilate/use/validator/djv';
 import '@jsonschema/assimilate/use/util/JSONRef';
 import '@jsonschema/assimilate/add/operator/is';
 import '@jsonschema/assimilate/add/operator/not';
@@ -35,11 +36,11 @@ import '@jsonschema/assimilate/add/operator/removeSchema';
 import '@jsonschema/assimilate/add/output/verbose';
 import '@jsonschema/assimilate/add/output/use-json-pointer';
 
-Validation.addSchema(schema); // etc 
-let test = Validation.compile(path);
+Validator.addSchema(schema); // etc 
+let test = Validator.compile(path);
 let errors = test(data);
 ```
-To compile tests for re-use:
+To compile tests for re-use: NOT IMPLEMENTED YET
 ```javascript
 import Assimilate from '@jsonschema/assimilate/Assimilate';
  
@@ -48,16 +49,17 @@ let errors = test(data);
 ```
 
 ## Goals
-- Provide a consistent interface to use for running JSON Schema validation so that if
+- [x] Add wrappers for Ajv/Djv/Tv4 to start with as PoC.
+- [x] Add build and test scripts.
+- [ ] Provide a consistent interface to use for running JSON Schema validation so that if
   a library is discontinued like tv4 it is easier to switch to a current and actively 
   maintained validator.
-- Provide utilities common to JSON Schema usage scenarios with standardised interfaces.
-- Make it as easy as possible to keep code size as small as possible.
-- Make testing and comparing validators and utils as easy as possible to keep the user 
+- [ ] Provide utilities common to JSON Schema usage scenarios with standardised interfaces.
+- [ ] Make it as easy as possible to keep code size as small as possible.
+- [ ] Make testing and comparing validators and utils as easy as possible to keep the user 
   base informed and boost competition.
-- Add build and test scripts.
-- Add performance tests.
-- Add documentation.
+- [ ] Add performance tests.
+- [ ] Add documentation.
 
 
 ## Keeping Track
@@ -75,6 +77,13 @@ A header will is appended to each file to indicate version information
 ```
 
 ## Contributing / Plans
+**Note**: Currently when running npm install there are errors thrown, these do not affect what should be working
+they are items I haven't finished implementing yet. I will go through and clean them out soon.
+
+To view the available `package.json` script you can run `npm run info`
+The remaining scripts are perf/browser/commit/cover/tests2png and their immediate relatives. Builds, tests and lints 
+are all in some stage of working condition.
+
 Please contact @Anthropic via [Gitter](https://gitter.im/Anthropic) if you wish to get involved.
 
 ## Acknowledgements

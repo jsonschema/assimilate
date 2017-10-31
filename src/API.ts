@@ -1,29 +1,5 @@
 import { ValidatorLibraryInstance, AssimilateAPI } from './declarations';
-/**
- * @function
- * @name noop
- * @inner
- */
-function noop() {}
-
-/**
- * @function
- * @name partial
- * @inner
- */
-function partial(fn: Function, ...args: any[]) {
-  if (typeof fn !== 'function') {
-    return noop;
-  }
-
-  if (args.length >= fn.length) {
-    return fn(...args);
-  }
-
-  return function executor(...evalArgs: any[]) {
-    return partial.apply(null, [fn, ...args, ...evalArgs]);
-  };
-}
+import { partial } from './use/utils/Partial';
 
 /**
  * @function

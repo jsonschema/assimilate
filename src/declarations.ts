@@ -29,12 +29,12 @@ export interface RequiredOptions extends DefaultOptions  {}
  * I am the required method set for a library or library wrapper
  */
 export declare class ValidatorLibraryInstance {
+  errors?: string | object;
   constructor();
   addSchema?(schema: JSONSchema4): void;
   addMetaSchema?(): void;
   validate?(this: ValidatorLibraryInstance, path: string, instance: any): boolean;
   getErrors?(): Array<object>;
-  errors?: string | object;
-  //validate?(path: string, instance: any): boolean;
+  // validate?(path: string, instance: any): boolean;
   [x: string]: any;
 }

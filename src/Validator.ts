@@ -97,20 +97,27 @@ export class ValidatorInstance {
   }
 
   /**
-   * 
    * @param namespace  I am the reference to the schema to be used in jsonref or jsonpath
    * @param jsonSchema The schema to validate against
    */
   addSchema (namespace: string, jsonSchema: JSONSchema4) {
-    if(!this.libraries || !this.libraries[this.using]) throw ('A validation library must be provided prior to adding a schema');
+    if (!this.libraries || !this.libraries[this.using]) {
+      throw ('A validation library must be provided prior to adding a schema');
+    };
+
     this.libraries[this.using].lib.addSchema(namespace, jsonSchema);
+
     return this;
   }
 
   validate (namespace: string, instance: any) {
-    if(!this.libraries || !this.libraries[this.using]) throw ('A validation library must be provided prior to adding a schema');
+    if (!this.libraries || !this.libraries[this.using]) {
+      throw ('A validation library must be provided prior to adding a schema');
+    };
+
     let valid = this.libraries[this.using].lib.validate(namespace, instance);
     this.errors = this.libraries[this.using].lib.getErrors();
+
     return valid;
   }
 

@@ -7,8 +7,8 @@ try {
     const env = source({
       errorHandler(this: any, type: string) {
         let path = this.data.toString().replace(/^data/, '');
-        let dataPath: string = path.replace(/\[\'([^\']+)\'\]/ig, '.$1').replace(/\[(i[0-9]*)\]/ig, "[\'+$1+\']");
-        let schemaPath: string = '#'+path.replace(/\[i([0-9]*)\]/ig, '/items').replace(/\[\'([^\']+)\'\]/ig, '/properties/$1');
+        let dataPath: string = path.replace(/\[\'([^\']+)\'\]/ig, '.$1').replace(/\[(i[0-9]*)\]/ig, '[\'+$1+\']');
+        let schemaPath: string = '#' + path.replace(/\[i([0-9]*)\]/ig, '/items').replace(/\[\'([^\']+)\'\]/ig, '/properties/$1');
         let schema = this.schema;
 
         // if([ 'type', 'enum', 'minimum', 'maximum' ].indexOf(type)) {
@@ -33,15 +33,19 @@ try {
     const library: ValidatorInstance = (<any>Object).assign(env, {
       validate: (path: string, instance: object) => {
         let result: string = test.call(env, path, instance);
-        errors.splice(0);
         let valid: boolean = !result;
-        if(!valid) {
+
+        errors.splice(0);
+
+        if (!valid) {
           errors = errors.concat(result);
         };
+
         return valid;
       },
       getErrors: () => {
         let result = [].concat(errors);
+
         return result;
       },
     });
