@@ -1,1 +1,1 @@
-module.exports = require('./dist/cjs/Assimilate');
+module.exports = require('./dist/package/Assimilate');

@@ -1,6 +1,6 @@
 /* tslint:disable:quotemark */
 import { expect, should } from 'chai';
-import * as Assimilate from '../dist/package/Assimilate';
+import * as Assimilate from '../';
 import {
   ValidatorLibraryInstance,
   AssimilateAPI,
