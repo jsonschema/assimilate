@@ -1,11 +1,9 @@
---require source-map-support/register
 --require ajv
 --require djv
 --ui bdd
 
 --reporter spec
 
---full-trace
 --check-leaks
 --globals WebSocket,FormData,XDomainRequest,ActiveXObject
 

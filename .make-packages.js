@@ -8,6 +8,13 @@ let klawSync = require('klaw-sync');
 let licenseTool = require('./tools/add-license-to-file');
 let addLicenseToFile = licenseTool.addLicenseToFile;
 let addLicenseTextToFile = licenseTool.addLicenseTextToFile;
+let bo = null;
+// Build Optimizer is not available on Node 4.x. Using a try/catch
+// here to make sure the build passes on Travis using Node 4, but
+// the NPM distribution will run through build-optimizer.
+try {
+  bo = require('@angular-devkit/build-optimizer');
+} catch (e) {}
 
 const ROOT = 'dist/';
 const CJS_ROOT = ROOT + 'cjs/';
@@ -16,12 +23,13 @@ const ESM2015_ROOT = ROOT + 'esm2015/';
 const UMD_ROOT = ROOT + 'global/';
 const TYPE_ROOT = ROOT + 'typings/';
 const PKG_ROOT = ROOT + 'package/';
-const CJS_PKG = PKG_ROOT + '_cjs/';
+const CJS_PKG = PKG_ROOT + '';
 const ESM5_PKG = PKG_ROOT + '_esm5/';
 const ESM2015_PKG = PKG_ROOT + '_esm2015/';
 const UMD_PKG = PKG_ROOT + 'bundles/';
 const TYPE_PKG = PKG_ROOT;
 
+const EXPORT_FILE = 'index.js';
 
 // License info for minified files
 let licenseUrl = 'https://github.com/json-schema-form/assimilate/blob/master/LICENSE.txt';
@@ -33,53 +41,58 @@ fs.removeSync(PKG_ROOT);
 
 let rootPackageJson = Object.assign({}, pkg, {
   name: 'assimilate',
-  main: './_cjs/Assimilate.js',
-  module: './_esm5/Assimilate.js',
-  es2015: './_esm2015/Assimilate.js',
+  main: './Assimilate.js',
   typings: './Assimilate.d.ts'
 });
 
-// Read the files and create package.json files for each. This allows Node,
-// Webpack, and any other tool to resolve using the "main", "module", or
-// other keys we add to package.json.
-klawSync(CJS_ROOT, {
-  nodir: false,
+// Get a list of the file names
+const fileNames = klawSync(CJS_ROOT, {
+  nodir: true,
   filter: function(item) {
     return item.path.endsWith('.js');
   }
 })
 .map(item => item.path)
-.map(path => path.slice((`${__dirname}/${CJS_ROOT}`).length))
-.forEach(fileName => {
-  // Get the name of the directory to create
-  let parentDirectory = path.dirname(fileName);
-  // Get the name of the file to be the new directory
-  let directory = fileName.slice(0, fileName.length - 3);
-  let targetFileName = path.basename(directory);
+.map(path => path.slice((`${__dirname}/${CJS_ROOT}`).length));
 
-  fs.ensureDirSync(PKG_ROOT + parentDirectory);
-
-  // For "index.js" files, these are re-exports and need a package.json
-  // in-place rather than in a directory
-  if (targetFileName !== "index") {
-    fs.ensureDirSync(PKG_ROOT + directory);
-    fs.writeJsonSync(PKG_ROOT + directory + '/package.json', {
-      main: path.relative(PKG_ROOT + directory, CJS_PKG + directory) + '.js',
-      module: path.relative(PKG_ROOT + directory, ESM5_PKG + directory) + '.js',
-      es2015: path.relative(PKG_ROOT + directory, ESM2015_PKG + directory) + '.js',
-      typings: path.relative(PKG_ROOT + directory, TYPE_PKG + directory) + '.d.ts'
-    });
-  } else {
-    // If targeting an "index", there is no directory
-    directory = directory.split('/').slice(0, -1).join('/');
-    fs.writeJsonSync(PKG_ROOT + directory + '/package.json', {
-      main: path.relative(PKG_ROOT + directory, CJS_PKG + directory + '/index.js'),
-      module: path.relative(PKG_ROOT + directory, ESM5_PKG + directory + '/index.js'),
-      es2015: path.relative(PKG_ROOT + directory, ESM2015_PKG + directory + '/index.js'),
-      typings: path.relative(PKG_ROOT + directory, TYPE_PKG + directory + '/index.d.ts')
-    });
-  }
+// Execute build optimizer transforms on ESM5 files
+fileNames.map(fileName => {
+  if (!bo) return fileName;
+  let fullPath = path.resolve(__dirname, ESM5_ROOT, fileName);
+  let content = fs.readFileSync(fullPath).toString();
+  let transformed = bo.transformJavascript({
+    content: content,
+    getTransforms: [bo.getPrefixClassesTransformer, bo.getPrefixFunctionsTransformer, bo.getFoldFileTransformer]
+  });
+  fs.writeFileSync(fullPath, transformed.content);
+  return fileName;
 });
+// Create an object hash mapping imports to file names
+const fileMappings = fileNames.reduce((acc, fileName) => {
+  // Get the name of the file to be the new directory
+  const directory = fileName.slice(0, fileName.length - 3);
+
+  acc[directory] = fileName;
+  return acc;
+}, {});
+
+// For node-resolved imports (rxjs/operators resolves to rxjs/operators/index.js), Webpack's "alias"
+// functionality requires that the most broad mapping (rxjs/operators) be at the end of the alias
+// mapping object. Created Webpack issue: https://github.com/webpack/webpack/issues/5870
+const importTargets = Object.assign({}, fileMappings, fileNames.reduce((acc, fileName) => {
+  // If the fileName is index.js (re-export file), create another entry
+  // for the root of the export. Example:
+  // fileName = 'rxjs/operators/index.js'
+  // create entry:
+  // {'rxjs/operators': 'rxjs/operators/index.js'}
+  if (fileName.slice(fileName.length - EXPORT_FILE.length) === EXPORT_FILE) {
+    acc[fileName.slice(0, EXPORT_FILE.length + 1)] = fileName;
+  }
+  return acc;
+}, {}));
+
+createImportTargets(importTargets, "_esm5/", ESM5_PKG);
+createImportTargets(importTargets, "_esm2015/", ESM2015_PKG);
 
 // Make the distribution folder
 mkdirp.sync(PKG_ROOT);
@@ -117,4 +130,24 @@ function copySources(rootDir, packageDir, ignoreMissing) {
   fs.copySync(rootDir, packageDir);
   fs.copySync('./LICENSE.txt', packageDir + 'LICENSE.txt');
   fs.copySync('./README.md', packageDir + 'README.md');
+}
+
+// Create a file that exports the importTargets object
+function createImportTargets(importTargets, targetName, targetDirectory) {
+  const importMap = {};
+  for (const x in importTargets) {
+    importMap['assimilate/' + x] = 'assimilate/' + targetName + importTargets[x];
+  }
+
+  const outputData =
+`
+"use strict"
+var path = require('path');
+var dir = path.resolve(__dirname);
+module.exports = function() {
+  return ${JSON.stringify(importMap, null, 4).replace(/(: )"assimilate\/_esm(5|2015)\/(.+")(,?)/g, "$1path.join(dir, \"$3)$4")};
+}
+`
+
+  fs.outputFileSync(targetDirectory + 'path-mapping.js', outputData);
 }

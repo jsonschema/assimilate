@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "declarationDirectory": "./dist/typings",
+    "allowJs": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
@@ -15,7 +14,7 @@
     "mapRoot": "./",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "outDir": "dist/cjs",
@@ -23,18 +22,12 @@
     "removeComments": false,
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es6",
-    "typeRoots": [
-      "../node_modules/@types"
-    ]
+    "target": "es5"
   },
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2
   },
-  "files": [
-    "dist/cjs/src/Assimilate.ts"
-  ],
   "compileOnSave": false,
   "buildOnSave": false
 }
