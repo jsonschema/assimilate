@@ -81,7 +81,6 @@
     "build_global": "npm-run-all clean_dist_global build_esm5_for_rollup && mkdirp ./dist/global && node ./tools/make-umd-bundle.js && npm-run-all build_closure_core clean_dist_esm5_for_rollup",
     "build_umd": "npm-run-all clean_dist_global && mkdirp ./dist/global && node ./tools/make-umd-bundle.js && npm-run-all build_closure_core",
     "build_perf": "webdriver-manager update && npm-run-all build_cjs build_global perf",
-    "build_test": "shx rm -rf ./dist/ && npm-run-all copy_sources build_cjs generate_packages clean_spec build_spec test_mocha",
     "build_cover": "shx rm -rf ./dist/ && npm-run-all build_all build_spec cover",
     "build_docs": "npm-run-all build_global build_esm2015_for_docs build_cjs tests2png decision_tree_widget && esdoc -c esdoc.json && npm-run-all clean_dist_esm2015",
     "build_spec": "tsc --project ./spec --pretty",
@@ -104,11 +103,12 @@
     "doctoc": "doctoc CONTRIBUTING.md",
     "generate_packages": "node .make-packages.js",
     "_lint_perf": "eslint perf/",
-    "lint_spec": "tslint -c tslint.json \"spec/**/*.ts\"",
-    "lint_src": "tslint -c tslint.json \"src/**/*.ts\" -e \"src/**/json-schema.ts\"",
+    "lint_spec": "tslint --project tsconfig.json -c tslint.json \"spec/**/*.ts\"",
+    "lint_src": "tslint  --project tsconfig.json -c tslint.json \"src/**/*.ts\" -e \"src/**/json-schema.ts\"",
     "lint": "npm-run-all --parallel lint_*",
     "perf": "protractor protractor.conf.js",
     "perf_micro": "node ./perf/micro/index.js",
+    "prepare": "shx rm -rf ./typings && npm run build_all",
     "prepublish": "shx rm -rf ./typings && npm run build_all",
     "publish_docs": "./publish_docs.sh",
     "test_browser": "npm-run-all build_spec_browser && opn spec/support/mocha-browser-runner.html",
@@ -140,8 +140,9 @@
   "keywords": [
     "assimilate",
     "json-schema-form",
-    "json-ui-schema",
-    "json-schema"
+    "json-schema-ui",
+    "json-schema",
+    "validate"
   ],
   "devDependencies": {
     "@angular-devkit/build-optimizer": "0.0.31",

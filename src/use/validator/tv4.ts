@@ -30,7 +30,7 @@ try {
         return result.valid;
       },
       getErrors: () => {
-        let result = _errors.filter((n) => { return n !== undefined; });
+        let result = _errors.filter((n) => { return [undefined, null].indexOf(n) === -1; });
         return [].concat(result);
       },
     });

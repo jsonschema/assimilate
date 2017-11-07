@@ -22,7 +22,7 @@ function addLicenseTextToFile(licenseText, destination) {
   @name assimilate
   @version ${package.version}
   @date ${buildDate.toUTCString()}
-  @link https://github.com/json-schema-form/assimilate
+  @link https://github.com/jsonschema/assimilate
   
   @license
   ${licenseText}
