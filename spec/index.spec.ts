@@ -140,16 +140,6 @@ describe('Assimilate.Validator', () => {
       });
     });
 
-    // Assimilate.Validator.use('djv');
-    // Assimilate.Validator.addSchema('testA', jsonSchemaA);
-    // Assimilate.Validator.validate('testA#/common', { type: 'custom' });
-    // console.log(Assimilate.Validator.errors);
-    // Assimilate.Validator.use('ajv');
-    // Assimilate.Validator.addSchema('testB', jsonSchemaB);
-    // Assimilate.Validator.validate('testB#/common', { type: 'custom' });
-    // console.log(Assimilate.Validator.errors);
-    // Assimilate.Validator.errors.should.eq(false);
-
     describe('addMetaSchema', () => {
       it('adds the meta schema to define supported schema properties', () => {
       });
