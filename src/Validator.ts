@@ -19,9 +19,9 @@ import {
  * @description
  * Entry point for Assimilate package
  *
- * @param {function} validator
- * @param {function?} adapter
- * @returns {function} jvuApi
+ * @param {function} validator I am an external 3rd party validator library 
+ * @param {function?} adapter  I am a wrapper able to coerce validator behaviour to be inline with desired capabilities
+ * @returns {function} is      I am a function for returning a true/false result to a validation request
  */
 export const Assimilate = (validator: Function, adapter?: Function): ValidatorLibraryInstance => {
   let env: ValidatorLibraryInstance;
@@ -132,7 +132,7 @@ export class ValidatorInstance {
 export let Validator = new ValidatorInstance();
 
 /**
- * I am a singleton export, all importers of me will be using the same instance
+ * I am a prototype export, all importers of me will be using a separate instance
  */
 export const Validate = new ValidatorInstance();
 

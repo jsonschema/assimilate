@@ -32,7 +32,7 @@ const TYPE_PKG = PKG_ROOT;
 const EXPORT_FILE = 'index.js';
 
 // License info for minified files
-let licenseUrl = 'https://github.com/json-schema-form/assimilate/blob/master/LICENSE.txt';
+let licenseUrl = 'https://github.com/jsonschema/assimilate/blob/master/LICENSE.txt';
 let license = 'MIT ' + licenseUrl;
 
 delete pkg.scripts;
