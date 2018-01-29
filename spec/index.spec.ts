@@ -66,6 +66,29 @@ describe('Assimilate.Validator', () => {
         Assimilate.Validator.addMetaSchema
       }*/);
     });
+    
+    describe('test() raw execution', () => {
+      it('run raw tests from the validator library', () => {
+        let stringTest = {
+          "type": "object",
+          "properties": {
+            "test": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "test"
+          ]
+        };
+
+        Assimilate.Validator.use('djv');
+        Assimilate.Validator.libraries['djv'].should.eq(Assimilate.Validator.libraries[Assimilate.Validator.using]);
+        Assimilate.Validator.addSchema('stringTest', stringTest);
+        if(debug) { console.log(Assimilate.Validator.validateRaw); }
+        let result = Assimilate.Validator.validateRaw('stringTest', {});
+        if(debug) { console.log(result); }
+      });
+    });
 
     describe('addSchema/validate', () => {
       for (let i = 0; i < libraries.length; i++) {

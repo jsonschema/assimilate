@@ -50,6 +50,7 @@ export const Assimilate = (validator: Function, adapter?: Function): ValidatorLi
   // Entry point for generated environment
   (<any>Object).assign(
     apis.is,
+    apis.test,
     env,
     {
       env,
@@ -109,13 +110,24 @@ export class ValidatorInstance {
 
     return this;
   }
-
+  
   validate (namespace: string, instance: any) {
     if (!this.libraries || !this.libraries[this.using]) {
-      throw ('A validation library must be provided prior to adding a schema');
+      throw ('A validation library must be provided prior to validating an instance');
     };
 
     let valid = this.libraries[this.using].lib.validate(namespace, instance);
+    this.errors = this.libraries[this.using].lib.getErrors();
+
+    return valid;
+  }
+
+  validateRaw (namespace: string, instance: any) {
+    if (!this.libraries || !this.libraries[this.using]) {
+      throw ('A validation library must be provided prior to executing a raw validator');
+    };
+
+    let valid = this.libraries[this.using].lib.test(namespace, instance);
     this.errors = this.libraries[this.using].lib.getErrors();
 
     return valid;
