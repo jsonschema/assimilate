@@ -12,7 +12,7 @@ import {
  * I output console.log statement output when passed "-- --showlog"
  * @example npm run test -- --showlog
  */
-const debug = (process.argv.indexOf('--showlog') !== -1) ? 1: 0;
+const debug = (process.argv.indexOf('--showlog') !== -1) ? 1 : 0;
 
 // Store library list before adding test entries
 const libraries: string[] = Object.keys(Assimilate.Validator.libraries);
@@ -60,13 +60,13 @@ describe('Assimilate.Validator', () => {
         Assimilate.Validator.libraries['testB'].should.eq(Assimilate.Validator.libraries[Assimilate.Validator.using]);
       });
     });
-    
+
     describe('addMetaSchema', () => {
       it('adds the meta schema to define supported schema properties'/*, () => {
         Assimilate.Validator.addMetaSchema
       }*/);
     });
-    
+
     describe('test() raw execution', () => {
       it('run raw tests from the validator library', () => {
         let stringTest = {
@@ -84,9 +84,9 @@ describe('Assimilate.Validator', () => {
         Assimilate.Validator.use('djv');
         Assimilate.Validator.libraries['djv'].should.eq(Assimilate.Validator.libraries[Assimilate.Validator.using]);
         Assimilate.Validator.addSchema('stringTest', stringTest);
-        if(debug) { console.log(Assimilate.Validator.validateRaw); }
+        if (debug) { console.log(Assimilate.Validator.validateRaw); }
         let result = Assimilate.Validator.validateRaw('stringTest', {});
-        if(debug) { console.log(result); }
+        if (debug) { console.log(result); }
       });
     });
 
@@ -119,7 +119,7 @@ describe('Assimilate.Validator', () => {
             Assimilate.Validator.use(lib);
             Assimilate.Validator.addSchema('arrayTest' + lib, arrayTest);
             Assimilate.Validator.validate('arrayTest' + lib, { "test": [{ "alpha": "4" }, { "alpha": 4 }]});
-            if(debug) { console.log('arrayTest ' + lib, Assimilate.Validator.getErrors()); };
+            if (debug) { console.log('arrayTest ' + lib, Assimilate.Validator.getErrors()); };
           });
 
           it('validates enums', () => {
@@ -140,10 +140,10 @@ describe('Assimilate.Validator', () => {
             Assimilate.Validator.validate('enumTest' + lib, { "test": 'A' });
             Assimilate.Validator.getErrors().should.be.an('Array');
             Assimilate.Validator.getErrors().length.should.eq(0);
-            if(debug) { console.log('enumTest ' + lib + ' pass', Assimilate.Validator.getErrors()); };
+            if (debug) { console.log('enumTest ' + lib + ' pass', Assimilate.Validator.getErrors()); };
             Assimilate.Validator.validate('enumTest' + lib, { "test": 'B' });
             Assimilate.Validator.getErrors().should.be.an('Array');
-            if(debug) { console.log('enumTest ' + lib + ' fail', Assimilate.Validator.getErrors()); };
+            if (debug) { console.log('enumTest ' + lib + ' fail', Assimilate.Validator.getErrors()); };
           });
 
           it('validates oneOf', () => {
@@ -171,11 +171,11 @@ describe('Assimilate.Validator', () => {
             Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }]});
             Assimilate.Validator.getErrors().should.be.an('Array');
 //            Assimilate.Validator.getErrors().length.should.eq(0);
-            if(debug) { console.log('ofTest ' + lib + ' pass', Assimilate.Validator.getErrors()); };
+            if (debug) { console.log('ofTest ' + lib + ' pass', Assimilate.Validator.getErrors()); };
             Assimilate.Validator.validate('ofTest', { "test": [{ "alpha": "a" }, { "gamma": "4" }]});
             Assimilate.Validator.getErrors().should.be.an('Array');
             Assimilate.Validator.getErrors().length.should.not.eq(0);
-            if(debug) { console.log('ofTest ' + lib + ' fail', Assimilate.Validator.getErrors()); };
+            if (debug) { console.log('ofTest ' + lib + ' fail', Assimilate.Validator.getErrors()); };
           });
         });
       }

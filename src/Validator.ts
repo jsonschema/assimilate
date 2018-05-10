@@ -19,7 +19,7 @@ import {
  * @description
  * Entry point for Assimilate package
  *
- * @param {function} validator I am an external 3rd party validator library 
+ * @param {function} validator I am an external 3rd party validator library
  * @param {function?} adapter  I am a wrapper able to coerce validator behaviour to be inline with desired capabilities
  * @returns {function} is      I am a function for returning a true/false result to a validation request
  */
@@ -110,7 +110,7 @@ export class ValidatorInstance {
 
     return this;
   }
-  
+
   validate (namespace: string, instance: any) {
     if (!this.libraries || !this.libraries[this.using]) {
       throw ('A validation library must be provided prior to validating an instance');
